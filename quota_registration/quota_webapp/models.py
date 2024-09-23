@@ -5,14 +5,14 @@ class Student(models.Model):
     student_name = models.CharField(max_length=50)
 
 class Course(models.Model):
-    course_ID = models.CharField()
-    course_name = models.CharField()
+    course_ID = models.CharField(max_length=20)
+    course_name = models.CharField(max_length=50)
     max_capacity = models.IntegerField(default=0)
     current_registration = models.IntegerField(default=0)
 
 class Professor(models.Model):
-    prof_ID = models.CharField()
-    prof_name = models.CharField()
+    prof_ID = models.CharField(max_length=20)
+    prof_name = models.CharField(max_length=50)
 
 class Teaches(models.Model):
     prof_ID = models.ForeignKey(Professor, on_delete=models.CASCADE)
