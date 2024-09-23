@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}
+{% endblock %}
+
+{% block content %}
+    <p>{{user}} name : {{user_name}}</p>
+    <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">code</th>
+        <th scope="col">name</th>
+        <th scope="col">sem</th>
+        <th scope="col">year</th>
+        <th scope="col">max</th>
+        <th scope="col">curr</th>
+        <th scope="col">status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for course in all_course %}
+      <tr>
+        <td>{{course.course_ID}}</td>
+        <td>{{course.course_name}}</td>
+        <td>{{course.semester}}</td>
+        <td>{{course.academic_year}}</td>
+        <td>{{course.max_capacity}}</td>
+        <td>{{course.current_registration}}</td>
+        <td>{{course.status}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+    </table>
+    
+
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">code</th>
+            <th scope="col">code</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for course in reg %}
+          <tr>
+            <td>{{course.id}}</td>
+            <td>{{course.course_ID}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+        </table>
+{% endblock content %}
