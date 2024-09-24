@@ -15,6 +15,12 @@ def dashboard(request):
     user_name = Student.objects.filter(student_ID=user)[0].student_name
     all_course = Course.objects.all()
     reg = Registration.objects.filter(student_ID=Student.objects.filter(student_ID=user)[0])
+
+    id_contains_query = request.GET.get('filter')
+
+    if id_contains_query != "" and id_contains_query is not None:
+        all_course = all_course.filter(course_ID__icontains=id_contains_query)
+
     return render(request, 'dashboard.html', {"all_course": all_course, "reg": reg, "user": user, "user_name": user_name})
 
 def sign_in(request):
