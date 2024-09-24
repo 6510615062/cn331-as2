@@ -40,6 +40,7 @@
         <th scope="col">max</th>
         <th scope="col">curr</th>
         <th scope="col">status</th>
+        <th scope="col">เพิ่ม</th>
       </tr>
     </thead>
     <tbody>
@@ -52,6 +53,7 @@
           <td>{{course.max_capacity}}</td>
           <td>{{course.current_registration}}</td>
           <td>{{course.status}}</td>
+          <td><a href="add/{{course.course_ID}}" class="btn btn-success">เพิ่ม</a></td>
         </tr>
       {% endfor %}
     </tbody>

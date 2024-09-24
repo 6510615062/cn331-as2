@@ -48,3 +48,13 @@ def sign_out(request):
 
     # Redirect to sign-in page
     return redirect('/sign-in')
+
+def add(request, course_ID):
+    user = str(get_user(request))
+
+    reg = Registration.objects.create(
+        student_ID=Student.objects.filter(student_ID=user)[0],
+        course_ID=Course.objects.filter(course_ID=course_ID)[0]
+    )
+    reg.save()
+    return redirect("dashboard")
