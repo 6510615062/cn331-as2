@@ -58,3 +58,13 @@ def add(request, course_ID):
     )
     reg.save()
     return redirect("dashboard")
+
+def delete(request, course_ID):
+    user = str(get_user(request))
+
+    reg = Registration.objects.get(
+        student_ID=Student.objects.filter(student_ID=user)[0],
+        course_ID=Course.objects.filter(course_ID=course_ID)[0]
+    )
+    reg.delete()
+    return redirect("dashboard")
