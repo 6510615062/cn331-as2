@@ -5,6 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from quota_webapp.models import Course, Student, Registration
 from django.contrib.messages import get_messages
+from django.shortcuts import render, redirect
+from .forms import RegisterForm
 
 
 def index(request):
@@ -28,7 +30,25 @@ def dashboard(request):
     #get massage from previous action
     messages = get_messages(request)
 
-    return render(request, 'dashboard.html', {"all_course": all_course, "reg": reg, "user": user, "user_name": user_name})
+    context = {"all_course": all_course, "reg": reg, "user": user, "user_name": user_name}
+
+    return render(request, 'dashboard.html', context)
+
+def sign_up(request):
+    if request.method == "POST":
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            student_id = form.cleaned_data.get('username')
+            student_name = request.POST.get('first_name')
+            new_student = Student.objects.create(student_ID=student_id, student_name=student_name)
+            new_student.save()
+            return redirect('/')
+    else:
+        form = RegisterForm()
+        print(form)
+
+    return render(request, 'sign-up.html', {'form': form})
 
 def sign_in(request):
     if request.method == "POST":
