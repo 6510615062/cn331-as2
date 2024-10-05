@@ -5,34 +5,43 @@
 {% endblock %}
 
 {% block content %}
-<div class="container">
-    <h1>Sign in</h1>
-    
-    <!-- Calling messages framework -->
-    {% if messages %}
-    <div class="form-group col-md-4">
-        <div class="alert alert-danger" role="alert">
-            {% for message in messages %}
-                {{ message }}
-            {% endfor %}
-        </div>
-    </div>
-    {% endif %}
-    <!-- End calling messages framework -->
 
-    <form method="POST" action="{% url 'sign-in' %}">
-        {% csrf_token %}  
-        <div class="col-md-4">
-            <div class="form-group">
-                <label>Username</label>
-                <input type="text" class="form-control" name="username">
+
+<div class="container">
+    <div class="row justify-content-center align-items-center" style="height: 100vh;">
+      <div class="col-6 d-flex justify-content-center align-items-center">
+        <!-- Content here -->
+        <div class="container">
+            <h1 class="text-center">Sign in</h1>
+            
+            <!-- Calling messages framework -->
+            {% if messages %}
+            <div class="form-group col-md-4">
+                <div class="alert alert-danger" role="alert">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
             </div>
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" class="form-control" name="password">
-            </div>
-            <button type="submit" class="btn btn-primary">Sign in</button>
+            {% endif %}
+            <!-- End calling messages framework -->
+        
+            <form method="POST" action="{% url 'sign-in' %}">
+                {% csrf_token %}  
+                <div class="col-md-4 mx-auto mb-5">
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" class="form-control" name="username">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" class="form-control" name="password">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Sign in</button>
+                </div>
+            </form>
         </div>
-    </form>
+      </div>
+    </div>
   </div>
 {% endblock content %}

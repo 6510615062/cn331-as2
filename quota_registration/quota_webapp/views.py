@@ -43,7 +43,9 @@ def sign_up(request):
             student_name = request.POST.get('first_name')
             new_student = Student.objects.create(student_ID=student_id, student_name=student_name)
             new_student.save()
-            return redirect('/')
+            messages.success(request, 'Account was created for ' + student_id)
+
+            return redirect('sign-in.html')
     else:
         form = RegisterForm()
         print(form)
