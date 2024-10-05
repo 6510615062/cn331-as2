@@ -1,11 +1,19 @@
 {% extends "base.html" %}
-
 {% block title %}
   <title>Dashboard</title>
 {% endblock %}
 
+{% block inside_nav %}
+      <div class="d-flex ms-auto align-items-center">
+        <p style="font-size: 20px;" class="me-5 mb-0">ID : {{user}} Name : {{user_name}}</p>
+        <form class="d-flex" method="GET" action="/sign-out">
+          <button class="btn btn-primary" type="submit">Sign out</button>
+
+        </form>
+      </div>
+{% endblock %}
+
 {% block content %}
-  <p>{{user}} name : {{user_name}}</p>
 
   <table class="table">
     <thead>
@@ -48,43 +56,56 @@
   {% endif %}
   <!-- End calling messages framework -->
 
-  <form method="GET" action={% url 'dashboard' %}>
-    <div class="col-md-4">
-      <input type="text" class="form-control" name="filter"> 
-      <button type="submit" class="btn btn-primary">search</button>
-    </div>
-  </form>
+  <div class="container">
+    <form method="GET" action="{% url 'dashboard' %}" class="row g-2">
+      <div class="col-auto">
+        <p>Do this</p>
+      </div>
+      <div class="col-auto">
+          <input type="text" class="form-control" name="filter" placeholder="Search...">
+      </div>
+      <div class="col-auto">
+          <button type="submit" class="btn btn-primary">Search</button>
+      </div>
+    </form>
+  </div>
+  
 
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">code</th>
-        <th scope="col">name</th>
-        <th scope="col">sem</th>
-        <th scope="col">year</th>
-        <th scope="col">max</th>
-        <th scope="col">curr</th>
-        <th scope="col">status</th>
-        <th scope="col">เพิ่ม</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for course in all_course %}
+
+  
+  
+  <div class="container mt-2">
+    <table class="table">
+      <thead>
         <tr>
-          <td>{{course.course_ID}}</td>
-          <td>{{course.course_name}}</td>
-          <td>{{course.semester}}</td>
-          <td>{{course.academic_year}}</td>
-          <td>{{course.max_capacity}}</td>
-          <td>{{course.current_registration}}</td>
-          <td>{{course.status}}</td>
-          {% if course.status == True  %}
-            <td><a href="add/{{course.course_ID}}" class="btn btn-success">เพิ่ม</a></td>
-          {% else %}
-            <td><a class="btn btn-danger">เพิ่ม</a></td>
-          {% endif %}
+          <th scope="col">code</th>
+          <th scope="col">name</th>
+          <th scope="col">sem</th>
+          <th scope="col">year</th>
+          <th scope="col">max</th>
+          <th scope="col">curr</th>
+          <th scope="col">status</th>
+          <th scope="col">เพิ่ม</th>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        {% for course in all_course %}
+          <tr>
+            <td>{{course.course_ID}}</td>
+            <td>{{course.course_name}}</td>
+            <td>{{course.semester}}</td>
+            <td>{{course.academic_year}}</td>
+            <td>{{course.max_capacity}}</td>
+            <td>{{course.current_registration}}</td>
+            <td>{{course.status}}</td>
+            {% if course.status == True  %}
+              <td><a href="add/{{course.course_ID}}" class="btn btn-success">เพิ่ม</a></td>
+            {% else %}
+              <td><a class="btn btn-danger">เพิ่ม</a></td>
+            {% endif %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 {% endblock content %}
