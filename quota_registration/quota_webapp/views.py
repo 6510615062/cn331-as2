@@ -86,7 +86,7 @@ def add(request, course_ID):
 
     #check if course full
     if course.current_registration >= course.max_capacity:
-        messages.error(request, 'full')
+        messages.error(request, f'{course} is full')
 
     #check if user already register
     elif Registration.objects.filter(
@@ -103,10 +103,10 @@ def add(request, course_ID):
         course.current_registration += 1
         course.save()
 
-        messages.success(request, 'add success')
+        messages.success(request, f'added {course}')
 
     else:
-        messages.warning(request, 'already')
+        messages.warning(request, f'already registered {course}')
     
     return redirect("dashboard")
 
@@ -127,6 +127,6 @@ def delete(request, course_ID):
     course.current_registration -= 1
     course.save()
 
-    messages.success(request, 'delete success')
+    messages.success(request, f'deleted {course}')
 
     return redirect("dashboard")

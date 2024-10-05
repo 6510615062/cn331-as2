@@ -5,13 +5,13 @@
 {% endblock %}
 
 {% block content %}
-    <div style="background-color: aquamarine;">
+    <div class="container" style="background-color: aquamarine;">
         <div class="container ms-auto text-center">
             <h1>Sign in</h1>
             
             <!-- Calling messages framework -->
             {% if messages %}
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-4 mx-auto">
                 <div class="alert alert-danger" role="alert">
                     {% for message in messages %}
                         {{ message }}
