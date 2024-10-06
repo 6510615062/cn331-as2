@@ -30,12 +30,20 @@ The dashboard page contains three main elements:
 - table containg all courses
     * with filtering button to see course open for registration (Status = Open)
 
+A prevention system in case more than one user try to enroll into a same course with only one seat left.
+
 A sign-out button at the top right corner.
 
 Dark mode/ Light mode switch icon on the navigation bar.
 
-
 ## For admin
+
+By signing in via the sign in page the website will redirect to Django administration page.
+
+You can edit informations about Students, Registrations, Courses.
+
+
+
 
 
 

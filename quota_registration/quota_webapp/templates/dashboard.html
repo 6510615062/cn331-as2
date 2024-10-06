@@ -57,7 +57,13 @@
             <td class="text-center">{{course.academic_year}}</td>
             <td class="text-center">{{course.max_capacity}}</td>
             <td class="text-center">{{course.current_registration}}</td>
-            <td class="text-center">{{course.status}}</td>
+            <td class="text-center">
+              {% if course.status %}
+                Open
+              {% else %}
+                Closed
+              {% endif %}
+            </td>
             <td class="text-center"><a href="delete/{{course.course_ID}}" class="btn btn-danger btn-sm">Delete</a></td>
             {% else %}
               <td colspan="8" class="text-center"><button class="btn btn-link btn-sm" disabled>Empty</button></td>
@@ -73,9 +79,9 @@
       <div class="input-group">
         <input type="search" class="form-control" style="background-color: #e2e3e5;" placeholder="Search with course ID" name="filter" />
         {% if status == "1" %}
-          <a class="btn btn-info" href="filter/{{filter}}/0">filter</a>
+          <a class="btn btn-info" href="filter/{{filter}}/0">Show all course</a>
         {% else %}
-          <a class="btn btn-info" href="filter/{{filter}}/1">filter</a>
+          <a class="btn btn-info" href="filter/{{filter}}/1">Show open course</a>
         {% endif %}
         <button type="submit" class="btn btn-primary">search</button>
       </div>
@@ -105,7 +111,13 @@
             <td class="text-center">{{course.academic_year}}</td>
             <td class="text-center">{{course.max_capacity}}</td>
             <td class="text-center">{{course.current_registration}}</td>
-            <td class="text-center">{{course.status}}</td>
+            <td class="text-center">
+              {% if course.status %}
+                Open
+              {% else %}
+                Closed
+              {% endif %}
+            </td>
             {% if course.course_ID in reg_id %}
               <td class="text-center"><button class="btn btn-success btn-sm" disabled>Registered</button></td>
             {% elif course.current_registration >= course.max_capacity %}
