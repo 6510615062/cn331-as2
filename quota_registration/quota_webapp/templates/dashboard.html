@@ -14,52 +14,51 @@
 {% endblock %}
 
 {% block content %}
-
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">(test_col)</th>
-        <th scope="col">code</th>
-        <th scope="col">ลบ</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for course in reg %}
+  <div class="container mt-5">
+    <table class="table">
+      <thead>
         <tr>
-          <td>{{course.id}}</td>
-          <td>{{course.course_ID}}</td>
-          <td><a href="delete/{{course.course_ID}}" class="btn btn-success">ลบ</a></td>
+          <th scope="col">code</th>
+          <th scope="col">delete course</th>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        {% for course in reg %}
+          <tr>
+            <td>{{course.course_ID}}</td>
+            <td><a href="delete/{{course.course_ID}}" class="btn btn-danger">delete</a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 
-  <!-- Calling messages framework -->
-  {% if messages %}
-    <div class="form-group col-md-4">
-      {% for message in messages %}
-        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-          <div class="alert alert-danger" role="alert">
-            {{ message }}
-          </div>
-        {% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
-          <div class="alert alert-warning" role="alert">
-            {{ message }}
-          </div>
-        {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
-          <div class="alert alert-success" role="alert">
-            {{ message }}
-          </div>
-        {% endif %}
-      {% endfor %}
-    </div>
-  {% endif %}
-  <!-- End calling messages framework -->
+    {% if messages %}
+      <div class="container mx-auto">
+        <div class="form-group col-md-4 text-center">
+          {% for message in messages %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+              <div class="alert alert-danger" role="alert">
+                {{ message }}
+              </div>
+            {% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+              <div class="alert alert-warning" role="alert">
+                {{ message }}
+              </div>
+            {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+              <div class="alert alert-success" role="alert">
+                {{ message }}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
 
   <div class="container">
     <form method="GET" action="{% url 'dashboard' %}" class="row g-2">
       <div class="col-auto">
-        <p>Do this</p>
+        <p>Search with course ID</p>
       </div>
       <div class="col-auto">
           <input type="text" class="form-control" name="filter" placeholder="Search...">
@@ -78,14 +77,14 @@
     <table class="table">
       <thead>
         <tr>
-          <th scope="col">code</th>
-          <th scope="col">name</th>
-          <th scope="col">sem</th>
+          <th scope="col">course ID</th>
+          <th scope="col">course name</th>
+          <th scope="col">semester</th>
           <th scope="col">year</th>
-          <th scope="col">max</th>
-          <th scope="col">curr</th>
+          <th scope="col">max capacity</th>
+          <th scope="col">currently registered</th>
           <th scope="col">status</th>
-          <th scope="col">เพิ่ม</th>
+          <th scope="col">add course</th>
         </tr>
       </thead>
       <tbody>
@@ -99,9 +98,9 @@
             <td>{{course.current_registration}}</td>
             <td>{{course.status}}</td>
             {% if course.status == True  %}
-              <td><a href="add/{{course.course_ID}}" class="btn btn-success">เพิ่ม</a></td>
+              <td><a href="add/{{course.course_ID}}" class="btn btn-success">add</a></td>
             {% else %}
-              <td><a class="btn btn-danger">เพิ่ม</a></td>
+              <td><a class="btn btn-danger">add</a></td>
             {% endif %}
           </tr>
         {% endfor %}
