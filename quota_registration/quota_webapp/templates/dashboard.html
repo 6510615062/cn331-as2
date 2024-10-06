@@ -69,9 +69,14 @@
   </div>
 
   <div class="container">
-    <form method="GET" action="{% url 'dashboard' %}" class="row g-2">
+    <form method="GET" action="{% url 'filter' filter status %}" class="row g-2">
       <div class="input-group">
         <input type="search" class="form-control" style="background-color: #e2e3e5;" placeholder="Search with course ID" name="filter" />
+        {% if status == "1" %}
+          <a class="btn btn-info" href="filter/{{filter}}/0">filter</a>
+        {% else %}
+          <a class="btn btn-info" href="filter/{{filter}}/1">filter</a>
+        {% endif %}
         <button type="submit" class="btn btn-primary">search</button>
       </div>
     </form>

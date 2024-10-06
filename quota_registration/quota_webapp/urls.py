@@ -9,5 +9,6 @@ urlpatterns = [
     path("sign-out", views.sign_out),
     path("dashboard", views.dashboard, name="dashboard"),
     path("add/<course_ID>", views.add),
-    path("delete/<course_ID>", views.delete)
+    path("delete/<course_ID>", views.delete),
+    path("filter/<filter>/<status>", views.filter, name="filter"),
 ]
