@@ -12,6 +12,7 @@ class RegisterForm(UserCreationForm):
 
     def password_matched(self):
         if self.data['password1'] != self.data['password2']:
+            self.add_error("password2","test")
             return False
         else:
             return True
@@ -20,7 +21,7 @@ class RegisterForm(UserCreationForm):
         if self.data['username'].isdigit() and len(self.data['username']) == 10:
             return True
         else:
-            self.errors['username'] = ', Please use student ID as username'
+            self.add_error("username","Please use student ID as username")
             return False
 
     def is_valid(self):
