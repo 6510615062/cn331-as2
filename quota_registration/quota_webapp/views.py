@@ -60,6 +60,9 @@ def sign_in(request):
             password=password
         )
 
+        if user.is_staff == 1:
+            return redirect('/admin')
+        
         if user is not None:
             # Log user in
             login(request, user)
