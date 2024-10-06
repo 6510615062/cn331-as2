@@ -14,34 +14,36 @@ The web-application contains 3 html page: sign-in, sign-up and dashboard.
 
 The web-application has a default url set to the sign in page.
 
-Users can redirect to the sign up page and enter information to create an account.
+Users can redirect to the signup page and enter information to create an account.
 
-After signing up the website redirect user to sign in again.
+After signing up the website redirects user to sign in again.
 
-After user sign in, the website will redirect user to dashboard page.
+After user signs in, the website will redirect user to the dashboard page.
 
 The dashboard is inaccessible without signing in.
 
 The dashboard page contains three main elements:
 - your registered course table at the top (maximum of 7 courses)
-    * click button "delete" to withdraw registered course 
+    * click button "delete" to withdraw a registered course 
 - search bar
     * using course ID to search
-- table containg all courses
-    * with filtering button to see course open for registration (Status = Open)
+- table contains all the courses
+    * with filtering button to see the course open for registration (Status = Open)
 
 A prevention system in case more than one user try to enroll into a same course with only one seat left.
 
 A sign-out button at the top right corner.
 
-Dark mode/ Light mode switch icon on the navigation bar.
+The dark mode/light mode switch icon is on the navigation bar.
 
 ## For admin
 
-By signing in via the sign in page the website will redirect to Django administration page.
+By signing in via the sign-in page the website will redirect to the Django administration page.
 
-You can edit informations about Students, Registrations, Courses.
+You can edit information about Students, Registrations, and Courses.
 
+## Demonstration video
+[![alt text](https://img.youtube.com/vi/video-id/0.jpg)](https://youtu.be/Re_aVNl9H20)
 
 
 
