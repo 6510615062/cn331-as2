@@ -22,10 +22,22 @@ def dashboard(request):
 
     #get filter 
     id_contains_query = request.GET.get('filter')
+    if id_contains_query is None or id_contains_query == "":
+        id_contains_query = "None"
 
-    #filter course
-    if id_contains_query != "" and id_contains_query is not None:
+    #filter course by id
+    if id_contains_query == "None":
+        pass
+    elif id_contains_query != "" and id_contains_query is not None:
         all_course = all_course.filter(course_ID__icontains=id_contains_query)
+
+    #get status_filter
+    status_filter = request.GET.get("status_filter")
+    if status_filter is not None:
+        if str(status_filter) == "1":
+            all_course = all_course.filter(status=True)
+    else:
+        status_filter = "0"
 
     #get massage from previous action
     messages = get_messages(request)
@@ -47,7 +59,9 @@ def dashboard(request):
         "reg": registed_course, 
         "reg_id": registed_course_id, 
         "user": user, 
-        "user_name": user_name
+        "user_name": user_name,
+        "status": status_filter,
+        "filter": id_contains_query,
     }
 
     return render(request, 'dashboard.html', context)
@@ -157,3 +171,9 @@ def delete(request, course_ID):
     messages.success(request, f'deleted {course}')
 
     return redirect("dashboard")
+
+def filter(request, filter, status):
+
+    filter = request.GET.get('filter')
+    
+    return redirect(f'/dashboard?filter={filter}&status_filter={status}')
