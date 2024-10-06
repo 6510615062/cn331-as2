@@ -43,7 +43,12 @@ By signing in via the sign-in page the website will redirect to the Django admin
 You can edit information about Students, Registrations, and Courses.
 
 ## Demonstration video
-[![alt text](https://img.youtube.com/vi/video-id/0.jpg)](https://youtu.be/Re_aVNl9H20)
+
+[Watch the video](https://youtu.be/Re_aVNl9H20)
+
+
+
+
 
 
 
