@@ -13,13 +13,11 @@
     --text-color: #36454F;
     }
 
-    /* Dark mode styles */
     body.dark-mode {
         --background-color: #36454F;
         --text-color: #ffffff;
     }
 
-    /* Apply the colors */
     body {
         background-color: var(--background-color);
         color: var(--text-color);
@@ -31,12 +29,17 @@
     <nav class="navbar bg-body-secondary">
         <div class="container-fluid">
           <a class="navbar-brand" href="/dashboard">
-            <img src="{% static 'assets/Tse_logo.png' %}" alt="Logo" width="40" height="40" class="d-inline-block align-text-top">
-            Quota Registeration System
+            <img src="{% static 'assets/Tse_logo.png' %}" alt="Logo" width="40" height="40" class="d-inline-block align-text-center">
+            Quota Registeration System 
           </a>
-          <button class="btn" id="theme-toggle">
-            <img id="theme-icon" src="{% static 'assets/moon.png' %}" alt="Switch to Dark Mode" width="30" height="30">
-          </button>        
+          <div class="d-flex">
+            <div class="container">
+              <button class="button" style="border: none; background: transparent;" id="theme-toggle">
+                <img id="theme-icon" src="{% static 'assets/moon.png' %}" alt="Switch to Dark Mode" width="30" height="30">
+              </button>    
+            </div>
+          </div>
+          <div class="d-flex ms-auto align-items-center"></div>
           {% block inside_nav %}
           {% endblock %}
         </div>
@@ -45,29 +48,38 @@
     {% block content %}
     {% endblock %}
     <script>
-      const themeToggleBtn = document.getElementById('theme-toggle');
-      const themeIcon = document.getElementById('theme-icon');
-      const bodyElement = document.body;
-    
-      // Check the user's preference from localStorage
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme) {
-        bodyElement.classList.toggle('dark-mode', savedTheme === 'dark');
-        themeIcon.src = savedTheme === 'dark' ? 'quota_registration/static/assets/moon.png' : 'quota_registration/static/assets/sun.png';
-        themeIcon.alt = savedTheme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
-      }
-    
-      themeToggleBtn.addEventListener('click', () => {
-        // Toggle dark-mode class
-        const isDarkMode = bodyElement.classList.toggle('dark-mode');
-    
-        // Update the image and alt text
-        themeIcon.src = isDarkMode ? 'quota_registration/static/assets/moon.png' : 'quota_registration/static/assets/sun.png';
-        themeIcon.alt = isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode';
-    
-        // Save the user's preference to localStorage
-        localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
-      });
+  const themeToggleBtn = document.getElementById('theme-toggle');
+  const themeIcon = document.getElementById('theme-icon');
+  const bodyElement = document.body;
+
+  const moonIcon = "{% static 'assets/moon.png' %}";
+  const sunIcon = "{% static 'assets/sun.png' %}";
+
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme) {
+    bodyElement.classList.toggle('dark-mode', savedTheme === 'dark');
+    themeIcon.src = savedTheme === 'dark' ? moonIcon : sunIcon;
+    themeIcon.alt = savedTheme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+  }
+
+  themeToggleBtn.addEventListener('click', () => {
+    const isDarkMode = bodyElement.classList.toggle('dark-mode');
+
+    themeIcon.src = isDarkMode ? moonIcon : sunIcon;
+    themeIcon.alt = isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+
+    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+  });
+
+    setTimeout(function() {
+    const alert = document.querySelector('.alert');
+    if (alert) {
+      alert.style.transition = "opacity 0.5s ease";
+      alert.style.opacity = 0;
+      setTimeout(function() {
+        alert.remove();
+      }, 500);}
+    }, 2000);
     </script>
 </body>
 </html>
