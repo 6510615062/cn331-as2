@@ -30,7 +30,25 @@ def dashboard(request):
     #get massage from previous action
     messages = get_messages(request)
 
-    context = {"all_course": all_course, "reg": reg, "user": user, "user_name": user_name}
+    registed_course = []
+    registed_course_id = []
+
+    for r in reg:
+        course = Course.objects.get(course_ID=r.course_ID)
+        registed_course.append(course)
+        registed_course_id.append(course.course_ID)
+
+    while len(registed_course) < 7:
+        course = 'empty'
+        registed_course.append(course)
+
+    context = {
+        "all_course": all_course, 
+        "reg": registed_course, 
+        "reg_id": registed_course_id, 
+        "user": user, 
+        "user_name": user_name
+    }
 
     return render(request, 'dashboard.html', context)
 
@@ -84,8 +102,14 @@ def add(request, course_ID):
     student = Student.objects.get(student_ID=user)
     course = Course.objects.get(course_ID=course_ID)
 
+    #check if register more than 7 course
+    if Registration.objects.filter(
+        student_ID=student
+    ).count() >= 7:
+        messages.error(request, 'You can not register more than 7 courses')
+        
     #check if course full
-    if course.current_registration >= course.max_capacity:
+    elif course.current_registration >= course.max_capacity:
         messages.error(request, f'{course} is full')
 
     #check if user already register
