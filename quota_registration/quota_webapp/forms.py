@@ -12,7 +12,6 @@ class RegisterForm(UserCreationForm):
 
     def password_matched(self):
         if self.data['password1'] != self.data['password2']:
-            self.add_error("password2","test")
             return False
         else:
             return True
