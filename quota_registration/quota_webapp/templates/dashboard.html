@@ -34,7 +34,7 @@
   {% endif %}
 
   <div class="container mt-5">
-    <table class="table table-hover table-bordered table-sm align-middle" style="table-layout: fixed;">
+    <table class="table table-secondary table-hover table-bordered table-sm align-middle" style="table-layout: fixed;">
       <thead>
         <tr class="table-dark">
           <th scope="col">ID</th>
@@ -71,14 +71,14 @@
   <div class="container">
     <form method="GET" action="{% url 'dashboard' %}" class="row g-2">
       <div class="input-group">
-        <input type="search" class="form-control" placeholder="Search with course ID" name="filter" />
+        <input type="search" class="form-control" style="background-color: #e2e3e5;" placeholder="Search with course ID" name="filter" />
         <button type="submit" class="btn btn-primary">search</button>
       </div>
     </form>
   </div>
   
   <div class="container mt-3">
-    <table class="table table-hover table-bordered table-sm align-middle" style="table-layout: fixed;">
+    <table class="table table-secondary table-hover table-bordered table-sm align-middle" style="table-layout: fixed;">
       <thead>
         <tr class="table-dark">
           <th scope="col">ID</th>
