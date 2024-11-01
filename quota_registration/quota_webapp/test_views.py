@@ -137,7 +137,7 @@ class QuotaViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_sign_in_invalid(self):
-        """invalid login should get \'Invalid login\' massage"""
+        """invalid login should get \'Invalid login\' message"""
 
         c = Client()
         post_value = {
@@ -261,10 +261,10 @@ class QuotaViewTestCase(TestCase):
         cn399 = Course.objects.get(course_ID="CN399")
         cn399.status = 0
         cn399.save()
-        response = c.get("/dashboard?filter=None&status_filter=1", follow=True)
+        response = c.get("/filter/ /1", follow=True)
         self.assertEqual(response.context['all_course'].count(), 7)
 
-    def test_dashboard_filter_show_open_course(self):
+    def test_dashboard_filter_show_the_course(self):
         """"test if search return correct result"""
 
         c = Client()
@@ -292,20 +292,80 @@ class QuotaViewTestCase(TestCase):
                 student_ID=student,
                 course_ID=course_obj
             )
-            temp.save()
         response = c.get("/add/TU234", follow=True)
         message = str(list(get_messages(response.wsgi_request))[0])
         self.assertEqual(message, 'You can not register more than 7 courses')
         self.assertEqual(Registration.objects.filter(student_ID=student).count() , 7)
 
+    def test_add_if_course_full(self):
+        """reject if course full and send \'{course} is full\' message"""
 
-        
-        
-            
+        c = Client()
+        c.login(
+            username='6510615120', 
+            password='Testing12345'
+        )
+        cn399 = Course.objects.get(course_ID="CN399")
+        cn399.max_capacity = 2
+        cn399.current_registration = 2
+        cn399.save()
+        student = Student.objects.get(student_ID="6510615120")
+        response = c.get("/add/CN399", follow=True)
+        message = str(list(get_messages(response.wsgi_request))[0])
+        self.assertFalse(Registration.objects.filter(student_ID=student, course_ID=cn399).count())
+        self.assertEqual(response.request['PATH_INFO'], "/dashboard")
+        self.assertEqual(message, f'{cn399.course_ID} is full')
 
+    def test_add_if_already_register(self):
+        """reject if course already register and send \'already registered\' message"""
 
+        c = Client()
+        c.login(
+            username='6510615120', 
+            password='Testing12345'
+        )
+        cn399 = Course.objects.get(course_ID="CN399")
+        student = Student.objects.get(student_ID="6510615120")
+        registration = Registration.objects.create(student_ID=student, course_ID=cn399)
+        response = c.get("/add/CN399", follow=True)
+        message = str(list(get_messages(response.wsgi_request))[0])
+        self.assertEqual(Registration.objects.filter(student_ID=student, course_ID=cn399).count(), 1)
+        self.assertEqual(response.request['PATH_INFO'], "/dashboard")
+        self.assertEqual(message, f'already registered {cn399.course_ID}')
+    
+    def test_add_success(self):
+        """create Registration in db and send \'added {course}\' message"""
 
+        c = Client()
+        c.login(
+            username='6510615120', 
+            password='Testing12345'
+        )
+        cn399 = Course.objects.get(course_ID="CN399")
+        student = Student.objects.get(student_ID="6510615120")
+        response = c.get("/add/CN399", follow=True)
+        message = str(list(get_messages(response.wsgi_request))[0])
+        self.assertTrue(Registration.objects.get(student_ID=student, course_ID=cn399))
+        self.assertEqual(response.request['PATH_INFO'], "/dashboard")
+        self.assertEqual(message, f'added {cn399.course_ID}')
 
+    def test_delete(self):
+        """delete from db and send \'deleted {course}\' message"""
+
+        c = Client()
+        c.login(
+            username='6510615120', 
+            password='Testing12345'
+        )
+        cn399 = Course.objects.get(course_ID="CN399")
+        student = Student.objects.get(student_ID="6510615120")
+        registration = Registration.objects.create(student_ID=student, course_ID=cn399)
+        self.assertTrue(Registration.objects.get(student_ID=student, course_ID=cn399))
+        response = c.get("/delete/CN399", follow=True)
+        message = str(list(get_messages(response.wsgi_request))[0])
+        self.assertFalse(Registration.objects.filter(student_ID=student, course_ID=cn399))
+        self.assertEqual(response.request['PATH_INFO'], "/dashboard")
+        self.assertEqual(message, f'deleted {cn399.course_ID}')
 
 
 
