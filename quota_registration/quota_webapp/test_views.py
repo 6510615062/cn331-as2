@@ -29,6 +29,67 @@ class QuotaViewTestCase(TestCase):
             status=1
         )
 
+        course3 = Course.objects.create(
+            course_ID="CN399",
+            course_name="Gaming",
+            semester=2,
+            academic_year=2024,
+            max_capacity=2,
+            current_registration=0,
+            status=1
+        )
+
+        course4 = Course.objects.create(
+            course_ID="CN101",
+            course_name="Intro to programming",
+            semester=2,
+            academic_year=2024,
+            max_capacity=2,
+            current_registration=0,
+            status=1
+        )
+
+        course5 = Course.objects.create(
+            course_ID="TU117",
+            course_name="Culture",
+            semester=2,
+            academic_year=2024,
+            max_capacity=2,
+            current_registration=0,
+            status=1
+        )
+
+        course6 = Course.objects.create(
+            course_ID="TU105",
+            course_name="English",
+            semester=2,
+            academic_year=2024,
+            max_capacity=2,
+            current_registration=0,
+            status=1
+        )
+
+        course7 = Course.objects.create(
+            course_ID="TU999",
+            course_name="Finance",
+            semester=2,
+            academic_year=2024,
+            max_capacity=2,
+            current_registration=0,
+            status=1
+        )
+
+        course8 = Course.objects.create(
+            course_ID="TU234",
+            course_name="Investing",
+            semester=2,
+            academic_year=2024,
+            max_capacity=2,
+            current_registration=0,
+            status=1
+        )
+        
+                
         #create student (not from register page)
         student1 = Student.objects.create(
             student_ID="6510615120",
@@ -177,5 +238,86 @@ class QuotaViewTestCase(TestCase):
         c = Client()
         response = c.get("/dashboard", follow=True)
         self.assertEqual(response.request['PATH_INFO'], "/sign-in")
+
+    def test_dashboard_filter_show_all_course(self):
+        """"test default filer which is show all course filter in the dashboard page"""
+
+        c = Client()
+        c.login(
+            username='6510615120', 
+            password='Testing12345'
+        )
+        response = c.get("/dashboard", follow=True)
+        self.assertEqual(response.context['all_course'].count(), 8)
+
+    def test_dashboard_filter_show_open_course(self):
+        """"test show open course filter"""
+
+        c = Client()
+        c.login(
+            username='6510615120', 
+            password='Testing12345'
+        )
+        cn399 = Course.objects.get(course_ID="CN399")
+        cn399.status = 0
+        cn399.save()
+        response = c.get("/dashboard?filter=None&status_filter=1", follow=True)
+        self.assertEqual(response.context['all_course'].count(), 7)
+
+    def test_dashboard_filter_show_open_course(self):
+        """"test if search return correct result"""
+
+        c = Client()
+        c.login(
+            username='6510615120', 
+            password='Testing12345'
+        )
+        response = c.get("/dashboard?filter=CN333&status_filter=0", follow=True)
+        self.assertEqual(response.context['all_course'].count(), 1)
+        self.assertEqual(response.context['all_course'][0].course_ID, 'CN333')
+
+    def test_adding_more_than_maximum_allowed_course(self):
+        """test if course are limited at 7 courses as designed"""
+
+        c = Client()
+        c.login(
+            username='6510615120', 
+            password='Testing12345'
+        )
+        courses = ['CN333', 'CN361', 'CN399', 'CN101', 'TU117', 'TU105', 'TU999']
+        student = Student.objects.get(student_ID='6510615120')
+        for course in courses:
+            course_obj = Course.objects.get(course_ID=course)
+            temp = Registration.objects.create(
+                student_ID=student,
+                course_ID=course_obj
+            )
+            temp.save()
+        response = c.get("/add/TU234", follow=True)
+        message = str(list(get_messages(response.wsgi_request))[0])
+        self.assertEqual(message, 'You can not register more than 7 courses')
+        self.assertEqual(Registration.objects.filter(student_ID=student).count() , 7)
+
+
+        
+        
+            
+
+
+
+
+
+
+
+
+
+
+
+    
+
+        
+
+
+        
 
     

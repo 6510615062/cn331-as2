@@ -78,7 +78,6 @@ def sign_up(request):
             return redirect('/sign-in')
     else:
         form = RegisterForm()
-        print(form)
 
     return render(request, 'sign-up.html', {'form': form})
 
